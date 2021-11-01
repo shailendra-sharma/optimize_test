@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class InventoryManager : MonoBehaviour
 {
     public InventoryInfoPanel InfoPanel;
     public InventoryItem InventoryItemPrefab;
+
+    [Tooltip(tooltip:"Sprite atlas contains all Icons referenced by ItemData, it will reduce draw calls")]
+    public SpriteAtlas spriteAtlas;
 
     public GameObject Container;
 
@@ -34,7 +38,8 @@ public class InventoryManager : MonoBehaviour
         // Clear existing items already in the list.
         var items = Container.GetComponentsInChildren<InventoryItem>();
         foreach (InventoryItem item in items) {
-            item.gameObject.transform.SetParent(null);
+            //item.gameObject.transform.SetParent(null); commenting it and destroying existing objects instead of keeping them
+            DestroyImmediate(item.gameObject);
         }
 
         ItemDatas = GenerateItemDatas(ItemJson, ItemGenerateScale);
@@ -43,7 +48,7 @@ public class InventoryManager : MonoBehaviour
         Items = new List<InventoryItem>();
         foreach (InventoryItemData itemData in ItemDatas) {
             var newItem = GameObject.Instantiate<InventoryItem>(InventoryItemPrefab);
-            newItem.Icon.sprite = Icons[itemData.IconIndex];
+            newItem.Icon.sprite = spriteAtlas.GetSprite(Icons[itemData.IconIndex].name); //used sprite atlas, read name of image from icons object
             newItem.Name.text = itemData.Name;
             newItem.transform.SetParent(Container.transform);
             newItem.Button.onClick.AddListener(() => { InventoryItemOnClick(newItem, itemData); });
@@ -79,5 +84,15 @@ public class InventoryManager : MonoBehaviour
             item.Background.color = Color.white;
         }
         itemClicked.Background.color = Color.red;
+
+        UpdateInventoryInfoPanel(itemData);
+    }
+
+    private void UpdateInventoryInfoPanel(InventoryItemData itemData)
+    {
+        InfoPanel.Icon.sprite = spriteAtlas.GetSprite(Icons[itemData.IconIndex].name);
+        InfoPanel.Name.text = itemData.Name;
+        InfoPanel.Description.text = itemData.Description;
+        InfoPanel.StatText.text = itemData.Stat.ToString();
     }
 }
