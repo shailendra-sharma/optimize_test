@@ -38,7 +38,7 @@ public class InventoryManager : MonoBehaviour
         // Clear existing items already in the list.
         var items = Container.GetComponentsInChildren<InventoryItem>();
         foreach (InventoryItem item in items) {
-            //item.gameObject.transform.SetParent(null); commenting it and destroying existing objects instead of keeping them
+            //item.gameObject.transform.SetParent(null); //commenting it and destroying existing objects instead of keeping them
             DestroyImmediate(item.gameObject);
         }
 
