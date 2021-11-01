@@ -15,15 +15,23 @@ Tasks to complete:
 1. There is an `InfoPanel` that displays the _Name_, _Descripton_, and _Stat_ for an item. 
     Please display the correct information when an item is selected. In addtion, make sure 
     an item is selected when the app first starts. **(Est. 15 minutes.)**
-
+	
+	Changes: Added function UpdateInventoryInfoPanel() in InventoryManager.cs to update info panel
+		
+	
 2. If you run the game with `Stats` from the Unity Editor, you will notice the number of Batches is very high. 
     Without reducing the items or data being displayed, decrease the number of batches and
     do your best to increase performance. This project is very simple and it should be able to 
     run above 60fps on a low-end machine while scrolling. **(Est. 2 hours.)**
-
+	
+	Changes: 1. To reduce number of batches and draw calls used SpriteAtlas
+			 2. To improve FPS during scrolling disabled Pixel Perfect in InventoryPanel.
+	
+	
 3. **OPTIONAL** Please use this time to show off any skills whether improving the game visually or adding gameplay.
     This can include:
     - Support UI scaling across devices.
+	    Changes: Adjust UI layout and changed UI Scale Mode of Canvas Scaler to Scale With Screen Size 	
     - Displaying more images in the info.
     - Adding animations, or sliders for your character.
     - ETC...
